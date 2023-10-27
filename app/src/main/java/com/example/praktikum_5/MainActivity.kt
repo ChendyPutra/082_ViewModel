@@ -84,6 +84,8 @@ fun HomePage(modifier: Modifier = Modifier) {
      var textNama by remember { mutableStateOf("") }
      var textTlp by remember { mutableStateOf("") }
      var textAlmt by remember { mutableStateOf("") }
+     var textmail by remember { mutableStateOf("") }
+
 
      val context = LocalContext.current
      val dataForm : DataForm
@@ -107,6 +109,15 @@ fun HomePage(modifier: Modifier = Modifier) {
          modifier = Modifier.fillMaxWidth(),
          label = {Text(text = "Nomor Telepon")},
          onValueChange = {textTlp = it})
+
+     OutlinedTextField(
+         value = textmail,
+         singleLine = true,
+         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+         shape = MaterialTheme.shapes.large,
+         modifier = Modifier.fillMaxWidth(),
+         label = {Text(text = "Email")},
+         onValueChange = {textmail = it})
 
      OutlinedTextField(
          value = textAlmt,
