@@ -19,18 +19,22 @@ class CobaViewModel:ViewModel() {
         private set
     var alamat : String by mutableStateOf("")
         private set
+
     private val _uiState = MutableStateFlow(DataForm())
     val uiState: StateFlow<DataForm> = _uiState.asStateFlow()
 
-    fun BacaData(nm:String,tlp:String,jk:String,almt:String){
+
+    fun BacaData(nm:String,tlp:String,jk:String,almt:String, eml:String, stts:String){
         namauser=nm;
         notelepon=tlp;
         jeniskelamin=jk;
         alamat=almt;
+
     }
 
     fun setJenisKelamin(pilihjk:String){
         _uiState.update { currentState -> currentState.copy(sex = pilihjk) }
     }
+
 
 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -88,6 +89,7 @@ fun HomePage(modifier: Modifier = Modifier) {
      val dataForm : DataForm
      val uiState by CobaViewModel.uiState.collectAsState()
      dataForm = uiState
+     Text(text = "Create Your Account")
 
      OutlinedTextField(
          value = textNama,
@@ -113,7 +115,7 @@ fun HomePage(modifier: Modifier = Modifier) {
          modifier = Modifier.fillMaxWidth(),
          label = {Text(text = "Alamat Lengkap")},
          onValueChange = {textAlmt = it})
-     
+
      PilihJK(
          options = jenis.map { id -> context.resources.getString(id)},
          onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
@@ -121,7 +123,7 @@ fun HomePage(modifier: Modifier = Modifier) {
      Button(
          modifier = Modifier.fillMaxWidth(),
          onClick = {
-             CobaViewModel.BacaData(textNama, textTlp, textAlmt, dataForm.sex)
+             CobaViewModel.BacaData(textNama, textTlp, textAlmt,dataForm.sex)
          }
      ){
          Text(text = stringResource(R.string.submit),
@@ -157,6 +159,34 @@ fun HomePage(modifier: Modifier = Modifier) {
          }
      }
  }
+
+ @Composable
+ fun pilihsts(
+     options: List<String>,
+     onSelectionChanged: (String) -> Unit = {}){
+     var selectedValue by rememberSaveable { mutableStateOf("")}
+     Column(modifier = Modifier.padding(16.dp)){
+         options.forEach{ item ->
+             Row (
+                 modifier = Modifier.selectable(
+                     selected = selectedValue == item,
+                     onClick = {
+                         selectedValue = item
+                         onSelectionChanged(item)}),
+                 verticalAlignment = Alignment.CenterVertically
+             ){
+                 RadioButton(
+                     selected = selectedValue == item,
+                     onClick = {
+                         selectedValue = item
+                         onSelectionChanged(item)})
+                 Text(item)
+             }
+         }
+     }
+ }
+
+
 
  @Composable
  fun Hasil(namahs:String, teleponhs:String, jenishs:String, alamaths:String){
