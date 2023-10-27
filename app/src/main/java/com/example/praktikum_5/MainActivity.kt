@@ -119,6 +119,15 @@ fun HomePage(modifier: Modifier = Modifier) {
          label = {Text(text = "Email")},
          onValueChange = {textmail = it})
 
+     PilihJK(
+         options = jenis.map { id -> context.resources.getString(id)},
+         onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
+     )
+     PilihJK(
+         options = status.map { id -> context.resources.getString(id)},
+         onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
+     )
+
      OutlinedTextField(
          value = textAlmt,
          singleLine = true,
@@ -127,10 +136,6 @@ fun HomePage(modifier: Modifier = Modifier) {
          label = {Text(text = "Alamat Lengkap")},
          onValueChange = {textAlmt = it})
 
-     PilihJK(
-         options = jenis.map { id -> context.resources.getString(id)},
-         onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
-     )
      Button(
          modifier = Modifier.fillMaxWidth(),
          onClick = {
