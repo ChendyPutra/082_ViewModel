@@ -123,7 +123,7 @@ fun HomePage(modifier: Modifier = Modifier) {
          options = jenis.map { id -> context.resources.getString(id)},
          onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
      )
-     PilihJK(
+     Pilihsts(
          options = status.map { id -> context.resources.getString(id)},
          onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
      )
@@ -177,7 +177,7 @@ fun HomePage(modifier: Modifier = Modifier) {
  }
 
  @Composable
- fun pilihsts(
+ fun Pilihsts(
      options: List<String>,
      onSelectionChanged: (String) -> Unit = {}){
      var selectedValue by rememberSaveable { mutableStateOf("")}
