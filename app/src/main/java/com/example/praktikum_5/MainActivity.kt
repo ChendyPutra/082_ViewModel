@@ -34,8 +34,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.praktikum_5.Data.DataForm
 import com.example.praktikum_5.Data.DataSource.jenis
+import com.example.praktikum_5.Data.DataSource.status
 import com.example.praktikum_5.ui.theme.Praktikum_5Theme
 
  class MainActivity : ComponentActivity() {
@@ -84,14 +87,20 @@ fun HomePage(modifier: Modifier = Modifier) {
      var textNama by remember { mutableStateOf("") }
      var textTlp by remember { mutableStateOf("") }
      var textAlmt by remember { mutableStateOf("") }
-     var textmail by remember { mutableStateOf("") }
+     var textEmail by remember { mutableStateOf("") }
 
 
      val context = LocalContext.current
      val dataForm : DataForm
      val uiState by CobaViewModel.uiState.collectAsState()
      dataForm = uiState
-     Text(text = "Create Your Account")
+     
+     Row {
+         Text(text = "Register", fontWeight = FontWeight.Bold)
+
+
+     }
+     Text(text = "Create Your Account", fontWeight = FontWeight.Bold, fontSize = 25.sp)
 
      OutlinedTextField(
          value = textNama,
@@ -111,13 +120,13 @@ fun HomePage(modifier: Modifier = Modifier) {
          onValueChange = {textTlp = it})
 
      OutlinedTextField(
-         value = textmail,
+         value = textEmail,
          singleLine = true,
          keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
          shape = MaterialTheme.shapes.large,
          modifier = Modifier.fillMaxWidth(),
          label = {Text(text = "Email")},
-         onValueChange = {textmail = it})
+         onValueChange = {textEmail = it})
 
      PilihJK(
          options = jenis.map { id -> context.resources.getString(id)},
@@ -125,7 +134,7 @@ fun HomePage(modifier: Modifier = Modifier) {
      )
      Pilihsts(
          options = status.map { id -> context.resources.getString(id)},
-         onSelectionChanged = {CobaViewModel.setJenisKelamin(it)}
+         onSelectionChanged = {CobaViewModel.setStatusPernikahan(it)}
      )
 
      OutlinedTextField(
@@ -139,14 +148,14 @@ fun HomePage(modifier: Modifier = Modifier) {
      Button(
          modifier = Modifier.fillMaxWidth(),
          onClick = {
-             CobaViewModel.BacaData(textNama, textTlp, textAlmt,dataForm.sex)
+             CobaViewModel.BacaData(textNama, textTlp, textAlmt,textEmail,dataForm.sex,dataForm.status)
          }
      ){
          Text(text = stringResource(R.string.submit),
              fontSize = 16.sp)
      }
-     Spacer(modifier = Modifier.height(100.dp))
-     Hasil(namahs = CobaViewModel.namauser , teleponhs = CobaViewModel.notelepon, jenishs = CobaViewModel.jeniskelamin , alamaths = CobaViewModel.alamat )
+     Spacer(modifier = Modifier.height(5.dp))
+     Hasil(namahs = CobaViewModel.namauser , teleponhs = CobaViewModel.notelepon, jenishs = CobaViewModel.jeniskelamin , alamaths = CobaViewModel.alamat, emailhs = CobaViewModel.email, statushs = CobaViewModel.status )
  }
  
  @Composable
@@ -156,6 +165,7 @@ fun HomePage(modifier: Modifier = Modifier) {
  ){
      var selectedValue by rememberSaveable { mutableStateOf("")}
      Column(modifier = Modifier.padding(16.dp)){
+         Text(text = "Jenis Kelamin :")
          options.forEach{ item -> 
              Row (
                  modifier = Modifier.selectable(
@@ -182,6 +192,7 @@ fun HomePage(modifier: Modifier = Modifier) {
      onSelectionChanged: (String) -> Unit = {}){
      var selectedValue by rememberSaveable { mutableStateOf("")}
      Column(modifier = Modifier.padding(16.dp)){
+         Text(text = "Status :")
          options.forEach{ item ->
              Row (
                  modifier = Modifier.selectable(
@@ -205,21 +216,21 @@ fun HomePage(modifier: Modifier = Modifier) {
 
 
  @Composable
- fun Hasil(namahs:String, teleponhs:String, jenishs:String, alamaths:String){
+ fun Hasil(namahs:String, teleponhs:String, jenishs:String, alamaths:String, statushs:String, emailhs:String){
      ElevatedCard(
          elevation = CardDefaults.cardElevation(
              defaultElevation = 6.dp
          ),
          modifier = Modifier
-             .size(width = 300.dp, height = 100.dp)
+             .size(width = 300.dp, height = 200.dp)
      ) {
-         Text(text = "Nama : " + namahs,
-             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
-         Text(text = "Nomor Telepon : " + teleponhs,
-             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
          Text(text = "Jenis Kelamin : " + jenishs,
              modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
+         Text(text = "Status : " + statushs,
+             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
          Text(text = "Alamat : " + alamaths,
+             modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
+         Text(text = "Email : " + emailhs,
              modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp))
      }
  }
